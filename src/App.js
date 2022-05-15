@@ -1,23 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import "./App.css";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import Cards from "./Cards";
+import UserList from "./UserList";
 
 function App() {
+  const [movieList, setMovieList] = useState([]);
+  useEffect(() => {
+    axios
+      .get("http://movie-app-gmc.herokuapp.com/api/movies")
+      .then((res) => console.log(setMovieList(res.data)));
+  }, []);
+
+  const [listOfUSer , setListOfUSer ] = useState([]);
+  useEffect(() => {
+    axios
+      .get("https://jsonplaceholder.typicode.com/users")
+      .then((res) => console.log(setListOfUSer(res.data)));
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div
+      className="App"
+      style={{
+        display: "flex",
+        flexWrap: "wrap",
+        justifyContent: "space-between",
+      }}
+    >
+      <h1>Checkpoint API</h1>
+      {listOfUSer.map((el) => (
+        <UserList user={el} />
+      ))}
     </div>
   );
 }
